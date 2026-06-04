@@ -1,5 +1,25 @@
-// 1. 저장된 상품 데이터
-let savedProducts = JSON.parse(localStorage.getItem('products')) || [];
+// 1. Firebase 연결
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCgLYjH0_kInv3Rvq_-Z4LTJ_CjldMlkV8",
+  authDomain: "ajoungo-rthmrf2.firebaseapp.com",
+  projectId: "ajoungo-rthmrf2",
+  storageBucket: "ajoungo-rthmrf2.firebasestorage.app",
+  messagingSenderId: "274110442293",
+  appId: "1:274110442293:web:b80cac8cbdfcbc5d853a7c",
+  measurementId: "G-SR2YCMXDDR"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 
 // 2. HTML 요소 가져오기
@@ -150,23 +170,46 @@ function handleSubmitProduct() {
 // 5. 상품 저장 / 불러오기
 
 // 상품 저장
-function saveProduct(product) {
-  savedProducts.push(product);
-  localStorage.setItem('products', JSON.stringify(savedProducts));
+async function saveProduct(product) {
+  try {
+    await addDoc(collection(db, "products"), {
+      category: product.category,
+      name: product.name,
+      price: product.price,
+      email: product.email,
+      imageSrc: product.imageSrc,
+      createdAt: serverTimestamp()
+    });
 
-  addProductCard(product);
-  clearForm();
-  closeRegisterModal();
-  updateEmptyMessage();
+    addProductCard(product);
+    clearForm();
+    closeRegisterModal();
+    updateEmptyMessage();
+
+  } catch (error) {
+    console.error("상품 저장 오류:", error);
+    alert("상품 저장 중 오류가 발생했습니다.");
+  }
 }
 
 // 저장된 상품 불러오기
-function loadProducts() {
-  savedProducts.forEach(product => {
-    addProductCard(product);
-  });
+async function loadProducts() {
+  try {
+    const querySnapshot = await getDocs(collection(db, "products"));
 
-  updateEmptyMessage();
+    productList.innerHTML = "";
+
+    querySnapshot.forEach((doc) => {
+      const product = doc.data();
+      addProductCard(product);
+    });
+
+    updateEmptyMessage();
+
+  } catch (error) {
+    console.error("상품 불러오기 오류:", error);
+    alert("상품을 불러오는 중 오류가 발생했습니다.");
+  }
 }
 
 
