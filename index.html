@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AJOUNGO - AU 중고거래</title>
+  <link rel="icon" type="image/png" href="Favicon.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">AJOUNGO</div>
+    <nav>
+      <input type="text" placeholder="물건을 검색해보세요 🔍" id="searchInput" />
+      <button id="postBtn">상품 등록</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="emptyMessage" class="empty-message">
+      <h2>아직 등록된 상품이 없습니다.</h2>
+      <p>오른쪽 위의 <strong>상품 등록</strong> 버튼을 눌러 첫 상품을 등록해보세요.</p>
+    </section>
+    <section id="product-list" class="product-list">
+    </section>
+  </main>
+
+<!-- 상품 등록 창 -->
+<div id="modalOverlay" class="modal-overlay">
+  <div class="modal">
+    <h2>상품 등록</h2>
+
+    <label>카테고리</label>
+    <select id="productCategory">
+      <option value="">카테고리를 선택하세요</option>
+      <option value="음식 쉐어">음식 쉐어</option>
+      <option value="교재">교재</option>
+      <option value="의류">의류</option>
+      <option value="기타 중고 물품">기타 중고 물품</option>
+    </select>
+
+    <label>상품명</label>
+    <input type="text" id="productName" placeholder="예: 아이패드 미니 6세대">
+
+    <label>가격</label>
+    <input type="number" id="productPrice" placeholder="예: 400000">
+
+    <label>판매자 이메일</label>
+    <input type="text" id="userEmail" placeholder="예: earthmurf@ajou.ac.kr">
+
+    <label>상품 이미지</label>
+    <input type="file" id="productImage" accept="image/*">
+
+    <div class="modal-buttons">
+      <button id="submitProductBtn">등록</button>
+      <button id="closeModalBtn">취소</button>
+    </div>
+  </div>
+</div>
+
+<!-- 상품 상세 정보 창 -->
+<div id="detailModalOverlay" class="detail-modal-overlay">
+  <div class="detail-modal">
+    
+    <div class="detail-left">
+      <img id="detailImage" src="" alt="상품 이미지">
+    </div>
+
+    <div class="detail-right">
+      <p id="detailCategory" class="detail-category"></p>
+      <h2 id="detailName"></h2>
+      <p id="detailPrice" class="detail-price"></p>
+      <p id="detailEmail" class="detail-email"></p>
+
+      <div class="detail-buttons">
+        <button id="buyBtn">구매 문의하기</button>
+      </div>
+
+      <button id="detailCloseBtn" class="detail-close-btn">닫기</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- 구매 문의 이메일 창 -->
+<div id="emailModalOverlay" class="email-modal-overlay">
+  <div class="email-modal">
+    <h2>구매 문의하기</h2>
+
+    <label>받는 사람</label>
+    <input type="text" id="sellerEmailInput" readonly>
+
+    <label>제목</label>
+    <input type="text" id="emailSubjectInput" readonly>
+
+    <label>구매자 이름</label>
+    <input type="text" id="buyerNameInput" placeholder="예: 이수현">
+
+    <label>거래 희망 장소</label>
+    <input type="text" id="meetingPlaceInput" placeholder="예: 학생회관 앞">
+
+    <div class="email-modal-buttons">
+      <button id="sendEmailBtn">전송하기</button>
+      <button id="closeEmailModalBtn">닫기</button>
+    </div>
+  </div>
+</div>
+
+  <footer>
+    <p>© EARTHMURF. Designed for AJOUNGO.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
